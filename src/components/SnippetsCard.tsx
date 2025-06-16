@@ -9,10 +9,7 @@ export default function SnippetsCard() {
                {/* Code Snippet Repository Section */}
       <section id="snippets" className="py-20 px-6 relative">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16 animate-on-scroll">
-            <Badge className="mb-4 bg-blue-500/10 text-blue-400 border-blue-500/30 hover:scale-110 transition-transform duration-300">
-              Code Repository
-            </Badge>
+          <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                 Don't Repeat Yourself
