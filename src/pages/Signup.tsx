@@ -3,62 +3,29 @@ import { useNavigate, Link } from "react-router-dom"
 import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
-import { Code, ArrowLeft, Eye, EyeOff, Github, User, Mail, Lock } from "lucide-react"
+import { ArrowLeft, Eye, EyeOff, User, Mail, Lock } from "lucide-react"
 import AnimatedBackground from "../components/AnimatedBackground"
+
+interface SignupData {
+  name: string
+  email: string
+  password: string
+}
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [formData, setFormData] = useState({
+  const [SignupData, setSignupData] = useState<SignupData>({
     name: "",
     email: "",
-    password: "",
-    confirmPassword: ""
+    password: ""
   })
   const [isLoading, setIsLoading] = useState(false)
-  const [errors, setErrors] = useState<Record<string, string>>({})
   const navigate = useNavigate()
-
-  const handleInputChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({ ...prev, [field]: e.target.value }))
-    if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: "" }))
-    }
-  }
-
-  const validateForm = () => {
-    const newErrors: Record<string, string> = {}
-    
-    if (!formData.name.trim()) newErrors.name = "Name is required"
-    if (!formData.email.trim()) newErrors.email = "Email is required"
-    if (formData.password.length < 6) newErrors.password = "Password must be at least 6 characters"
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords don't match"
-    }
-    
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!validateForm()) return
-    
-    setIsLoading(true)
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false)
-      console.log("Sign up:", formData)
-      // navigate("/dashboard") // Uncomment when dashboard route exists
-    }, 2000)
-  }
 
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden relative flex items-center justify-center py-8">
       <AnimatedBackground />
-      
+
       {/* Back to Home Button */}
       <button
         onClick={() => navigate("/")}
@@ -78,7 +45,7 @@ export default function Signup() {
 
         {/* Sign Up Card */}
         <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 shadow-2xl hover:border-purple-500/30 transition-all duration-500">
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form className="space-y-5">
             {/* Name Field */}
             <div className="space-y-2">
               <Label htmlFor="name" className="text-sm font-medium text-gray-300 flex items-center space-x-2">
@@ -89,12 +56,13 @@ export default function Signup() {
                 id="name"
                 type="text"
                 placeholder="username"
-                value={formData.name}
-                onChange={handleInputChange("name")}
+                value={SignupData.name}
+                onChange={(e) => {
+                  setSignupData({ ...SignupData, name: e.target.value })
+                }}
                 required
                 className="bg-black/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-purple-500 focus:ring-purple-500/20 transition-all duration-300"
               />
-              {errors.name && <p className="text-red-400 text-xs">{errors.name}</p>}
             </div>
 
             {/* Email Field */}
@@ -107,12 +75,13 @@ export default function Signup() {
                 id="email"
                 type="email"
                 placeholder="your@email.com"
-                value={formData.email}
-                onChange={handleInputChange("email")}
+                value={SignupData.email}
+                onChange={(e) => {
+                  setSignupData({ ...SignupData, email: e.target.value })
+                }}
                 required
                 className="bg-black/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-purple-500 focus:ring-purple-500/20 transition-all duration-300"
               />
-              {errors.email && <p className="text-red-400 text-xs">{errors.email}</p>}
             </div>
 
             {/* Password Field */}
@@ -126,8 +95,10 @@ export default function Signup() {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Create a strong password"
-                  value={formData.password}
-                  onChange={handleInputChange("password")}
+                  value={SignupData.password}
+                  onChange={(e) => {
+                    setSignupData({ ...SignupData, password: e.target.value })
+                  }}
                   required
                   className="bg-black/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-purple-500 focus:ring-purple-500/20 transition-all duration-300 pr-10"
                 />
@@ -139,7 +110,6 @@ export default function Signup() {
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              {errors.password && <p className="text-red-400 text-xs">{errors.password}</p>}
             </div>
 
 
@@ -147,6 +117,7 @@ export default function Signup() {
             <Button
               type="submit"
               disabled={isLoading}
+              // onClick={}
               className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3 font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
               {isLoading ? (

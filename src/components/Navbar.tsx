@@ -1,6 +1,6 @@
 import { Button } from "../components/ui/button"
 import { Code, Github } from "lucide-react"
-
+import { useNavigate } from "react-router-dom"
 export default function Navbar() {
   const handleNavClick = (sectionId: string) => {
     const element = document.getElementById(sectionId)
@@ -8,6 +8,7 @@ export default function Navbar() {
       element.scrollIntoView({ behavior: "smooth" })
     }
   }
+  const navigate = useNavigate()
 
   return (
     <nav className="relative z-50 px-6 py-4 border-b border-gray-800/50 backdrop-blur-sm">
@@ -44,10 +45,13 @@ export default function Navbar() {
           <Button
             variant="outline"
             className=" bg-transparent border-gray-700 text-white transition-all duration-300"
+            onClick={() => navigate("/signin")}
           >
             Sign In
           </Button>
-          <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 animate-pulse-glow">
+          <Button 
+          onClick={() => navigate("/signup")}
+          className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 animate-pulse-glow">
             Get Started
           </Button>
 
