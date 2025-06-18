@@ -1,0 +1,50 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String    @id @default(uuid())
+  email    String    @unique
+  password String
+  username String    @unique
+  snippets Snippet[]
+}
+
+model Snippet {
+  id String @id @default(uuid())
+
+  title       String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  language    String
+  code        String
+  isPrivate   Boolean  @default(false)
+  tags        SnippetTag[]
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+}
+
+model Tag {
+  id String @id @default(uuid())
+  name String? @unique
+  snippets SnippetTag[]
+}
+
+model SnippetTag {
+  snippetId String
+  tagId     String
+
+  snippet   Snippet @relation(fields: [snippetId], references: [id])
+  tag       Tag     @relation(fields: [tagId], references: [id])
+
+  @@id([snippetId, tagId])
+}
+
