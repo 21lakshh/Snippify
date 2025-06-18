@@ -10,9 +10,9 @@ export default function Hero() {
       <AnimatedBackground />
       
       {/* Hero Content */}
-      <div className="relative z-20 text-center max-w-4xl mx-auto">
+      <div className="relative z-20 text-center max-w-4xl mx-auto animate-fade-in">
         {/* Main Headline */}
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight animate-on-scroll stagger-1">
+        <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
             <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent inline-block hover:scale-105 transition-transform duration-500">
               Code Smarter.
             </span>

@@ -19,6 +19,7 @@ export default function AnimatedBackground() {
                             {codeSnippets.map((snippet, index) => {
           // Position first 5 snippets normally, new ones on the left
           const isLeftSnippet = index >= 5;
+
           const leftPosition = isLeftSnippet ? 
             `${5 + (index - 5) * 3}%` : // Left area positioning (5%, 8%, 11%)
             `${20 + index * 15}%`;      // Original positioning
@@ -33,7 +34,7 @@ export default function AnimatedBackground() {
               style={{
                 left: leftPosition,
                 top: topPosition,
-                animationDelay: `${index * 2}s`,
+                animationDelay: `${index * 0.5}s`,
               }}
             >
               {snippet}
@@ -64,15 +65,15 @@ export default function AnimatedBackground() {
                     />
                     <Braces
                         className="absolute top-40 right-32 w-8 h-8 text-purple-400/30 animate-float"
-                        style={{ animationDelay: "2s" }}
+                        style={{ animationDelay: "0.5s" }}
                     />
                     <Hash
                         className="absolute bottom-40 left-40 w-5 h-5 text-pink-400/30 animate-float"
-                        style={{ animationDelay: "4s" }}
+                        style={{ animationDelay: "1s" }}
                     />
                     <Code
                         className="absolute top-60 right-20 w-7 h-7 text-cyan-400/30 animate-float"
-                        style={{ animationDelay: "1s" }}
+                        style={{ animationDelay: "0.25s" }}
                     />
                 </div>
         </>

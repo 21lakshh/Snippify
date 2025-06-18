@@ -11,7 +11,7 @@ export default function Navbar() {
   const navigate = useNavigate()
 
   return (
-    <nav className="relative z-50 px-6 py-4 border-b border-gray-800/50 backdrop-blur-sm">
+    <nav className="relative z-50 px-6 py-4 border-b border-gray-800/50 backdrop-blur-sm animate-fade-in">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center  animate-pulse-glow">

@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { authmiddleware } from "../middlewares/middleware";
 import { z } from "zod";
-import prisma from "../client/client";
+import prisma from '../client/client'
 
 export const snippetRoute = new Hono<{
     Variables: { userId: string }

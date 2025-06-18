@@ -82,6 +82,17 @@
   }
 }
 
+@keyframes fade-in {
+  0% { 
+    opacity: 0; 
+    transform: translateY(30px); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
 /* Animation Classes */
 .animate-float { 
   animation: float 6s ease-in-out infinite; 
@@ -97,6 +108,10 @@
 
 .animate-code-float { 
   animation: code-float 8s ease-in-out infinite; 
+}
+
+.animate-fade-in { 
+  animation: fade-in 2s ease-out forwards; 
 }
 
 
