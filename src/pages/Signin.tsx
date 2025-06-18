@@ -5,6 +5,7 @@ import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 import { ArrowLeft, Eye, EyeOff } from "lucide-react"
 import AnimatedBackground from "../components/AnimatedBackground"
+import axios from "axios"
 
 export default function Signin() {
   const [showPassword, setShowPassword] = useState(false)
@@ -16,13 +17,27 @@ export default function Signin() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    
-    // Simulate API call
-    setTimeout(() => {
+
+    try{
+    const response = await axios.post('https://snippify-backend.lakshyapaliwal200.workers.dev/api/v1/user/signin', {
+      email,
+      password
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      console.log(response.data)
+      localStorage.setItem('token', response.data.token)
       setIsLoading(false)
-      console.log("Sign in:", { email, password })
-      // navigate("/dashboard") // Uncomment when dashboard route exists
-    }, 2000)
+      navigate('/dashboard')
+    }
+    catch(error){
+      setIsLoading(false)
+      alert('Invalid email or password')
+      setEmail('')
+      setPassword('')
+    }
   }
 
   return (
@@ -42,7 +57,7 @@ export default function Signin() {
       <div className="relative z-20 w-full max-w-md mx-auto px-6">
         {/* Sign In Card */}
         <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 shadow-2xl hover:border-blue-500/30 transition-all duration-500">
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form className="space-y-6">
             {/* Email Field */}
             <div className="space-y-2">
               <Label htmlFor="email" className="text-sm font-medium text-gray-300">
@@ -89,6 +104,7 @@ export default function Signin() {
               type="submit"
               disabled={isLoading}
               className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              onClick={handleSubmit}
             >
               {isLoading ? (
                 <div className="flex items-center justify-center space-x-2">

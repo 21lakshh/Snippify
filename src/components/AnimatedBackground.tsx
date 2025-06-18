@@ -30,7 +30,7 @@ export default function AnimatedBackground() {
           return (
             <div
               key={index}
-              className="absolute text-xs text-blue-400/20 font-mono animate-code-float"
+              className="absolute text-xs text-blue-400/40 font-mono animate-code-float "
               style={{
                 left: leftPosition,
                 top: topPosition,

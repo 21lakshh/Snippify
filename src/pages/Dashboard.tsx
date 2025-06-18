@@ -1,10 +1,60 @@
+import { useState } from "react"
 import { Link } from "react-router-dom"
-import { Code, Home, Component, Search, Filter } from "lucide-react"
+import { Code, Home, Component, Search, Filter, Lock, Plus, LockOpen } from "lucide-react"
 import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
 import Footer from "../components/Footer"
+import NewSnippetForm, { type SnippetFormData } from "../components/NewSnippetForm"
+import axios from "axios"
+import SnipCard from "../components/SnipCard"
+import useSnippets from "../hooks/useSnippets"
+
+interface Tag {
+  name: string
+}
+
+interface Snippet {
+  id: string
+  title: string
+  description: string
+  code: string
+  tags: Tag[]
+}
 
 export default function Dashboard() {
+  const [isFormOpen, setIsFormOpen] = useState(false)
+  const [snippets, loading] = useSnippets<Snippet>([])
+
+  const handleCreateSnippet = async (data: SnippetFormData) => {
+    try {
+      console.log("New snippet data:", data)
+      
+      const requestBody = {
+        title: data.title,
+        description: data.description,
+        code: data.code,
+        tags: data.tags,
+        isPrivate: data.isPrivate
+      }
+      
+      console.log("Request body:", requestBody)
+      
+      const response = await axios.post('https://snippify-backend.lakshyapaliwal200.workers.dev/api/v1/snippet/create', requestBody, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      
+      console.log("Response:", response)
+      alert("Snippet created successfully!")
+    } catch (error: any) {
+      console.error("Error creating snippet:", error)
+      console.error("Error response:", error.response?.data)
+      alert(`Error: ${error.response?.data?.msg || error.message}`)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
       {/* Main Content Wrapper */}
@@ -39,6 +89,22 @@ export default function Dashboard() {
                 <Component className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
                 <span>Components</span>
                 </Link>
+
+                <Link
+                to="/"
+                className="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800/50 transition-all duration-300 group"
+              >
+                <Lock className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                <span>Private</span>
+                </Link>
+
+                <Link
+                to="/"
+                className="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800/50 transition-all duration-300 group"
+              >
+                <LockOpen className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                <span>Public</span>
+                </Link>
             </nav>
           </div>
         </div>
@@ -49,12 +115,12 @@ export default function Dashboard() {
           <div className="bg-gray-900/30 backdrop-blur-sm border-b border-gray-800 p-6">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                  Code Snippets
-                </h1>
-                <p className="text-gray-400 mt-2">
-                  Discover and share code snippets from the community
-                </p>
+                <Button variant="outline" className="bg-transparent border-gray-700 text-gray-300 hover:bg-gray-800 hover:border-gray-600 hover:text-white"
+                onClick={() => setIsFormOpen(true)}
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  New Snippet
+                </Button>
               </div>
               
               {/* Search and Filter */}
@@ -80,8 +146,18 @@ export default function Dashboard() {
 
           {/* Snippets Grid */}
           <div className="flex-1 p-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-             Here will be the snippets
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {loading ? (
+                  <div>Loading...</div>
+                ) : Array.isArray(snippets) && snippets.length > 0 ? (
+                  snippets.map((snippet: Snippet) => (
+                    <SnipCard key={snippet.id} snippet={snippet} />
+                  ))
+                ) : (
+                  <div className="text-gray-400 text-center py-8">
+                    No snippets found. Create your first snippet!
+                  </div>
+                )}
             </div>
 
           </div>
@@ -90,6 +166,13 @@ export default function Dashboard() {
 
       {/* Footer */}
       <Footer />
+      
+      {/* New Snippet Form Modal */}
+      <NewSnippetForm 
+        isOpen={isFormOpen}
+        onClose={() => setIsFormOpen(false)}
+        onSubmit={handleCreateSnippet}
+      />
     </div>
   )
 }
