@@ -11,7 +11,7 @@ const CreateSnippetSchema = z.object({
     description: z.string().min(1),
     code: z.string().min(1),
     isPrivate: z.boolean().optional(),
-    tags: z.array(z.string()).optional()
+    tags: z.array(z.object({ name: z.string() })).optional()
 })
 
 snippetRoute.post('/create', authmiddleware, async (c) => {
@@ -19,35 +19,50 @@ snippetRoute.post('/create', authmiddleware, async (c) => {
 
     const body = await c.req.json()
     const parsedinputs = CreateSnippetSchema.safeParse(body)
-
+    console.log(body)
     if (!parsedinputs.success) {
         return c.json({ msg: "Invalid inputs please check again" }, 404)
     }
     try {
         const { title, description, code, isPrivate, tags } = parsedinputs.data
 
-        let tagWrites: any[] = []
-        if(tags){
-        tagWrites = tags.map((name) => ({
-            tag: { 
-              connectOrCreate: {
-                where:  { name },     // look‑up key (Tag.name is UNIQUE)
-                create: { name }      // how to create the tag if it doesn’t exist
-              }
+        // First create or find the tags
+        let tagIds: string[] = []
+        if (tags && tags.length > 0) {
+            for (const tag of tags) {
+                const existingTag = await prisma.tag.upsert({
+                    where: { name: tag.name },
+                    update: {},
+                    create: { name: tag.name }
+                })
+                tagIds.push(existingTag.id)
             }
-          }))
         }
+
+        // Create the snippet
         const snippet = await prisma.snippet.create({
             data: {
                 title,
                 description,
                 code,
                 authorId: userId,
-                isPrivate,
-                tags: {
-                    connectOrCreate: tagWrites
-                }
-            },
+                isPrivate: isPrivate ?? false,
+            }
+        })
+
+        // Create the SnippetTag relationships
+        if (tagIds.length > 0) {
+            await prisma.snippetTag.createMany({
+                data: tagIds.map(tagId => ({
+                    snippetId: snippet.id,
+                    tagId: tagId
+                }))
+            })
+        }
+
+        // Fetch the snippet with tags for response
+        const snippetWithTags = await prisma.snippet.findUnique({
+            where: { id: snippet.id },
             select: {
                 id: true,
                 title: true,
@@ -63,11 +78,13 @@ snippetRoute.post('/create', authmiddleware, async (c) => {
                 }
             }
         })
+
         return c.json({
             msg: "Snippet created successfully!",
-            snippet: snippet
+            snippet: snippetWithTags
         }, 200)
     } catch (err) {
+        console.error("Error creating snippet:", err)
         return c.json({ msg: "Error in creating snippet" }, 500)
     }
 })
