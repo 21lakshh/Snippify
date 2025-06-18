@@ -10,7 +10,6 @@ const CreateSnippetSchema = z.object({
     title: z.string().min(1),
     description: z.string().min(1),
     code: z.string().min(1),
-    language: z.string().min(1),
     isPrivate: z.boolean().optional(),
     tags: z.array(z.string()).optional()
 })
@@ -25,7 +24,7 @@ snippetRoute.post('/create', authmiddleware, async (c) => {
         return c.json({ msg: "Invalid inputs please check again" }, 404)
     }
     try {
-        const { title, description, code, language, isPrivate, tags } = parsedinputs.data
+        const { title, description, code, isPrivate, tags } = parsedinputs.data
 
         let tagWrites: any[] = []
         if(tags){
@@ -43,7 +42,6 @@ snippetRoute.post('/create', authmiddleware, async (c) => {
                 title,
                 description,
                 code,
-                language,
                 authorId: userId,
                 isPrivate,
                 tags: {
@@ -54,7 +52,6 @@ snippetRoute.post('/create', authmiddleware, async (c) => {
                 id: true,
                 title: true,
                 code: true,
-                language: true,
                 isPrivate: true,
                 tags: {
                     select: {
@@ -87,7 +84,6 @@ snippetRoute.get("/all", async (c) => {
             title: true,
             description: true,
             code: true,
-            language: true
         }
     })
 
