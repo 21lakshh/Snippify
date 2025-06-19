@@ -75,6 +75,11 @@ snippetRoute.post('/create', authmiddleware, async (c) => {
                             // const names = snippet.tags.map((t) => t.tag.name)
                         }
                     }
+                },
+                author: {
+                    select: {
+                        username: true,
+                    }
                 }
             }
         })
@@ -101,6 +106,18 @@ snippetRoute.get("/all", async (c) => {
             title: true,
             description: true,
             code: true,
+            author: {
+                select: {
+                    username: true,
+                }
+            },
+            tags: {
+                select: {
+                    tag: {
+                        select: { name: true }
+                    }
+                }
+            }
         }
     })
 
@@ -108,6 +125,64 @@ snippetRoute.get("/all", async (c) => {
         msg: "All snippets fetched successfully!",
             snippets: snippets
         }, 200)
+    } catch (err) {
+        return c.json({ msg: "Error in fetching snippets" }, 500)
+    }
+})
+
+
+snippetRoute.get("/private", authmiddleware, async (c) => {
+
+    try{
+    const userId = c.get('userId')
+    const userSnippets = await prisma.snippet.findMany({
+        where: { authorId: userId, isPrivate: true },
+        select: {
+            id: true,
+            title: true,
+            description: true,
+            code: true,
+            author: {
+                select: {
+                    username: true,
+                }
+            },
+            tags: {
+                select: {
+                    tag: {
+                        select: { name: true }
+                    }
+                }
+            }
+        }
+    })
+    const publicSnippets = await prisma.snippet.findMany({
+        where: { authorId: userId, isPrivate: false },
+        select: {
+            id: true,
+            title: true,
+            description: true,
+            code: true,
+            author: {
+                select: {
+                    username: true,
+                }
+            },
+            tags: {
+                select: {
+                    tag: {
+                        select: { name: true }
+                    }
+                }
+            }
+        }
+    })
+
+    const allSnippets = [...userSnippets, ...publicSnippets]
+    return c.json({
+        msg: "Snippets fetched successfully!",
+        snippets: allSnippets
+    }, 200)
     } catch (err) {
         return c.json({ msg: "Error in fetching snippets" }, 500)
     }
