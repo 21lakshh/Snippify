@@ -30,7 +30,7 @@ export default function SnipCard({snippet}: {snippet: any}) {
                   <CardDescription className="text-gray-400">{snippet.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="bg-black/50 rounded-lg p-4 border border-gray-800 group-hover:border-blue-500/30 transition-all duration-300">
+                  <div className="bg-black/50 rounded-lg p-5 border border-gray-800 group-hover:border-blue-500/30 transition-all duration-300">
                     <pre className="text-sm text-gray-300 overflow-x-auto">
                       <code>{snippet.code}</code>
                     </pre>

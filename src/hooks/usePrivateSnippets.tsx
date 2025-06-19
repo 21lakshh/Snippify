@@ -1,0 +1,25 @@
+import axios from "axios"
+import { useEffect, useState } from "react"
+
+    export default function usePrivateSnippets<T = any>(initialSnippets: T[]): [T[], boolean] {
+    const [snippets, setSnippets] = useState<T[]>(initialSnippets)
+    const [loading, setLoading] = useState(false)
+    
+    useEffect(() => {
+        setLoading(true)
+        axios.get("https://snippify-backend.lakshyapaliwal200.workers.dev/api/v1/snippet/private", {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        }).then((res) => {
+            console.log(res.data.snippets)
+            setSnippets(res.data.snippets || [])
+            setLoading(false)
+        }).catch((error) => {
+            console.error("Error fetching snippets:", error)
+            setLoading(false)
+        })
+    }, [])  
+
+    return [snippets, loading]
+}
