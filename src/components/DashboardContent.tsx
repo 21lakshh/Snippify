@@ -1,14 +1,16 @@
-import { Search, Filter, Plus, Menu } from "lucide-react"
+import { Search, Plus, Menu } from "lucide-react"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import SnipCard from "./SnipCard"
-import usePrivateSnippets from "../hooks/usePrivateSnippets"
+import useCachedPrivateSnippets from "../hooks/useCachedPrivateSnippets"
 import useSnippets from "../hooks/useSnippets"
 import { DashboardTab, type Snippet, type DashboardContentProps } from "../types/dashboard"
 import UIComponentsRender from "./UIComponentsRender"
 import AIGenerate from "./AIGenerate"
 import axios from "axios"
 import { type SnippetFormData } from "./NewSnippetForm"
+import UpdateSnippets from "./UpdateSnippets"
+import DeleteSnippets from "./DeleteSnippets"
 
 interface DashboardContentExtendedProps extends DashboardContentProps {
   onToggleSidebar: () => void
@@ -17,7 +19,7 @@ interface DashboardContentExtendedProps extends DashboardContentProps {
 export default function DashboardContent({ activeTab, onCreateSnippet, onToggleSidebar }: DashboardContentExtendedProps) {
   // Use different hooks based on active tab
   const [allSnippets, allLoading] = useSnippets<Snippet>([])
-  const [privateSnippets, privateLoading] = usePrivateSnippets<Snippet>([])
+  const [privateSnippets, privateLoading] = useCachedPrivateSnippets<Snippet>()
 
   // Determine which data to show based on active tab
   const getContentData = () => {
@@ -29,12 +31,19 @@ export default function DashboardContent({ activeTab, onCreateSnippet, onToggleS
       default:
         return { data: allSnippets, loading: allLoading, title: "All Snippets" }
     }
+
   }
 
   const { data, loading, title } = getContentData()
 
   if(activeTab === DashboardTab.COMPONENTS) {
     return <UIComponentsRender onToggleSidebar={onToggleSidebar} />
+  }
+  if(activeTab === DashboardTab.UPDATE) {
+    return <UpdateSnippets onToggleSidebar={onToggleSidebar} />
+  }
+  if(activeTab === DashboardTab.DELETE) {
+    return <DeleteSnippets onToggleSidebar={onToggleSidebar} />
   }
   if(activeTab === DashboardTab.AI) {
     return <AIGenerate onToggleSidebar={onToggleSidebar} onCreateSnippet={async (data: SnippetFormData) => {
@@ -92,14 +101,6 @@ export default function DashboardContent({ activeTab, onCreateSnippet, onToggleS
                 className="pl-10 w-32 md:w-64 bg-black/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-purple-500 focus:ring-purple-500/20"
               />
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              className="bg-transparent border-gray-700 text-gray-300 hover:bg-gray-800 hover:border-gray-600"
-            >
-              <Filter className="w-4 h-4 md:mr-2" />
-              <span className="hidden md:inline">Filter</span>
-            </Button>
           </div>
         </div>
       </div>

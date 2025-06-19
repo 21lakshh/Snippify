@@ -7,6 +7,7 @@ interface NewSnippetFormProps {
   isOpen: boolean
   onClose: () => void
   onSubmit: (data: SnippetFormData) => void
+  initialData?: SnippetFormData
 }
 
 export interface SnippetFormData {
@@ -17,14 +18,16 @@ export interface SnippetFormData {
   isPrivate: boolean
 }
 
-export default function NewSnippetForm({ isOpen, onClose, onSubmit }: NewSnippetFormProps) {
-  const [formData, setFormData] = useState<SnippetFormData>({
-    title: "",
-    description: "",
-    code: "",
-    tags: [],
-    isPrivate: false
-  })
+export default function NewSnippetForm({ isOpen, onClose, onSubmit, initialData }: NewSnippetFormProps) {
+  const [formData, setFormData] = useState<SnippetFormData>(
+    initialData || {
+      title: "",
+      description: "",
+      code: "",
+      tags: [],
+      isPrivate: false
+    }
+  )
   
   const [tagInput, setTagInput] = useState("")
 
@@ -77,7 +80,7 @@ export default function NewSnippetForm({ isOpen, onClose, onSubmit }: NewSnippet
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop with blur */}
       <div 
-        className="absolute inset-0 bg-black/ backdrop-blur-sm"
+        className="absolute inset-0 bg-black/20 backdrop-blur-sm"
         onClick={onClose}
       />
       
@@ -89,7 +92,9 @@ export default function NewSnippetForm({ isOpen, onClose, onSubmit }: NewSnippet
             <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
               <Code className="w-4 h-4 text-white" />
             </div>
-            <h2 className="text-xl font-semibold text-white">Create New Snippet</h2>
+            <h2 className="text-xl font-semibold text-white">
+              {initialData ? "Edit Snippet" : "Create New Snippet"}
+            </h2>
           </div>
           <Button
             variant="ghost"
@@ -239,7 +244,7 @@ export default function NewSnippetForm({ isOpen, onClose, onSubmit }: NewSnippet
               onClick={handleSubmit}
               className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
             >
-              Create Snippet
+              {initialData ? "Update Snippet" : "Create Snippet"}
             </Button>
           </div>
         </form>

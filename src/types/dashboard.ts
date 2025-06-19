@@ -2,7 +2,9 @@ export enum DashboardTab {
   COMPONENTS = 'components',
   PRIVATE = 'private',
   PUBLIC = 'public',
-  AI = 'ai'
+  AI = 'ai',
+  UPDATE = 'update',
+  DELETE = 'delete'
 }
 
 export interface Tag {

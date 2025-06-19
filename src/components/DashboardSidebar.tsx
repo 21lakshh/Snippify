@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import { Code, Home, Component, Lock, LockOpen, X, Bot } from "lucide-react"
+import { Code, Home, Component, Lock, LockOpen, X, Bot, Edit, Trash } from "lucide-react"
 import { DashboardTab } from "../types/dashboard"
 
 interface DashboardSidebarProps {
@@ -116,6 +116,30 @@ export default function DashboardSidebar({ activeTab, onTabChange, isOpen, onClo
             >
               <Bot className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
               <span>AI Snippets</span>
+            </button>
+
+            <button
+              onClick={() => handleTabChange(DashboardTab.UPDATE)}
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300 group w-full text-left ${
+                isActive(DashboardTab.UPDATE)
+                  ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30'
+                  : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
+              }`}
+            >
+              <Edit className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+              <span>Update Snippets</span>
+            </button>
+
+            <button
+              onClick={() => handleTabChange(DashboardTab.DELETE)}
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300 group w-full text-left ${
+                isActive(DashboardTab.DELETE)
+                  ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30'
+                  : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
+              }`}
+            >
+              <Trash className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+              <span>Delete Snippets</span>
             </button>
           </nav>
         </div>
