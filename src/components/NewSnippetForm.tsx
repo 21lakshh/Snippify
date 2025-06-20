@@ -21,11 +21,11 @@ export interface SnippetFormData {
 export default function NewSnippetForm({ isOpen, onClose, onSubmit, initialData }: NewSnippetFormProps) {
   const [formData, setFormData] = useState<SnippetFormData>(
     initialData || {
-      title: "",
-      description: "",
-      code: "",
-      tags: [],
-      isPrivate: false
+    title: "",
+    description: "",
+    code: "",
+    tags: [],
+    isPrivate: false
     }
   )
   

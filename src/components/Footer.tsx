@@ -1,9 +1,9 @@
 import {
-    Code,
     Github,
     Twitter,
-    Linkedin,
-  } from "lucide-react"
+    Linkedin
+} from "lucide-react"
+import { AuroraText } from "./magicui/aurora-text"
 
 export default function Footer() {
     return (
@@ -12,14 +12,9 @@ export default function Footer() {
                 <div className="max-w-7xl mx-auto">
                     <div className="grid md:grid-cols-4 gap-8 mb-8">
                         <div className="animate-on-scroll stagger-1">
-                            <div className="flex items-center space-x-2 mb-4">
-                                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center animate-pulse-glow">
-                                    <Code className="w-5 h-5 text-white" />
-                                </div>
-                                <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                                    Snippify
-                                </span>
-                            </div>
+                            <span className="flex items-center space-x-2 text-xl  lg:text-2xl font-bold pixelify-sans-regular hover:scale-105 transition-all duration-300 cursor-pointer">
+                                <AuroraText>Snippify</AuroraText>
+                            </span>
                             <p className="text-gray-400 mb-4">
                                 Empowering developers with reusable code snippets and community connections.
                             </p>

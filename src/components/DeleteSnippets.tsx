@@ -93,14 +93,14 @@ export default function DeleteSnippets({ onToggleSidebar }: DeleteSnippetsProps)
                             key={index}
                             variant="secondary" 
                             className="bg-gray-800 text-gray-300"
-                          >
+                    >
                             {tagItem.tag ? tagItem.tag.name : tagItem.name}
                           </Badge>
                         ))
                       ) : null}
                     </div>
                   </div>
-                  
+
                   <Button
                     onClick={() => handleDeleteClick(snippet)}
                     disabled={deletingId === snippet.id}
@@ -142,6 +142,6 @@ export default function DeleteSnippets({ onToggleSidebar }: DeleteSnippetsProps)
         onConfirm={handleConfirmDelete}
         onCancel={handleCancelDelete}
       />
-    </div>
+            </div>
   );
 }

@@ -5,9 +5,10 @@ import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 import { ArrowLeft, Eye, EyeOff, User, Mail, Lock } from "lucide-react"
 import AnimatedBackground from "../components/AnimatedBackground"
+import axios from "axios"
 
 interface SignupData {
-  name: string
+  username: string
   email: string
   password: string
 }
@@ -15,7 +16,7 @@ interface SignupData {
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false)
   const [SignupData, setSignupData] = useState<SignupData>({
-    name: "",
+    username: "",
     email: "",
     password: ""
   })
@@ -56,9 +57,9 @@ export default function Signup() {
                 id="name"
                 type="text"
                 placeholder="username"
-                value={SignupData.name}
+                value={SignupData.username}
                 onChange={(e) => {
-                  setSignupData({ ...SignupData, name: e.target.value })
+                  setSignupData({ ...SignupData, username: e.target.value })
                 }}
                 required
                 className="bg-black/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-purple-500 focus:ring-purple-500/20 transition-all duration-300"
@@ -117,7 +118,29 @@ export default function Signup() {
             <Button
               type="submit"
               disabled={isLoading}
-              // onClick={}
+              onClick={async (e) => {
+                e.preventDefault()
+                setIsLoading(true)
+                try{
+                const response = await axios.post("https://snippify-backend.lakshyapaliwal200.workers.dev/api/v1/user/signup",{
+                  username: SignupData.username,
+                  email: SignupData.email,
+                  password: SignupData.password
+                }, {
+                  headers: {
+                    "Content-Type": "application/json"
+                  }
+                })
+                console.log(response.data)
+                localStorage.setItem("token", response.data.token)
+                navigate("/dashboard")
+                setIsLoading(false)
+              }
+              catch(error){
+                setIsLoading(false)
+                alert("Error creating account")
+              }
+              }}
               className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3 font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
               {isLoading ? (

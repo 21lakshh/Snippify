@@ -95,7 +95,7 @@ export default function UpdateSnippets({ onToggleSidebar }: UpdateSnippetsProps)
         ) : Array.isArray(snippets) && snippets.length > 0 ? (
           <div className="max-w-4xl mx-auto w-full space-y-4">
             {snippets.map((snippet) => (
-              <motion.div
+            <motion.div
                 layoutId={`card-${snippet.id}-${id}`}
                 key={`card-${snippet.id}-${id}`}
                 onClick={() => handleSnippetClick(snippet)}
@@ -132,9 +132,9 @@ export default function UpdateSnippets({ onToggleSidebar }: UpdateSnippetsProps)
                     </div>
                   </div>
                 </div>
-              </motion.div>
+                  </motion.div>
             ))}
-          </div>
+                </div>
         ) : (
           <div className="text-gray-400 text-center py-8">
             <p>No snippets found to update.</p>
@@ -160,7 +160,7 @@ export default function UpdateSnippets({ onToggleSidebar }: UpdateSnippetsProps)
           }}
         />
       )}
-    </div>
+            </div>
   );
 }
 

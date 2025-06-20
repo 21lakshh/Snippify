@@ -4,6 +4,7 @@ import Footer from "../components/Footer"
 import SnippetsCard from "../components/SnippetsCard"
 import Community from "../components/Community"
 import UIComponentsSection from "../components/UIComponentsSection"
+import AIFeatureSection from "../components/AIFeatureSection"
 
 export default function Landing() {
   return (
@@ -11,6 +12,7 @@ export default function Landing() {
       <Navbar />
       <Hero />
       <SnippetsCard />
+      <AIFeatureSection />
       <UIComponentsSection />
       <Community />
       <Footer />

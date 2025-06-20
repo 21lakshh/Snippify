@@ -240,7 +240,7 @@ export default function AIGenerate({ onToggleSidebar, onCreateSnippet }: AIGener
             </div>
 
             {/* Chat Messages */}
-            <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-8">
+            <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-3 ">
                 {messages.map((message) => (
                     <div
                         key={message.id}
@@ -271,9 +271,6 @@ export default function AIGenerate({ onToggleSidebar, onCreateSnippet }: AIGener
                 
                 {isLoading && (
                     <div className="flex items-start space-x-3">
-                        <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
-                            <Bot className="w-4 h-4 text-white" />
-                        </div>
                         <div className="bg-gray-800 text-gray-100 rounded-lg p-4 mr-12">
                             <div className="flex items-center space-x-2">
                                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -289,7 +286,7 @@ export default function AIGenerate({ onToggleSidebar, onCreateSnippet }: AIGener
             {/* Input Area */}
             <div className="border-t border-gray-800 p-4 md:p-6">
                 <div className="flex items-end space-x-4">
-                    <div className="flex-1">
+                    <div className="flex flex-row w-full">
                         <textarea
                             value={inputValue}
                             onChange={(e) => setInputValue(e.target.value)}
