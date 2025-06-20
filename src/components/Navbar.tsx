@@ -53,17 +53,17 @@ export default function Navbar() {
             >
               Community
             </button>
-            <Github className="w-5 h-5 text-gray-300 hover:text-white transition-all duration-300 cursor-pointer" />
+            <Github className="w-5 h-5 text-gray-300 hover:text-white transition-all duration-300 cursor-pointer" onClick={() => window.location.href = "https://github.com/21lakshh/Snippify"}/>
             <Button
               variant="outline"
               className="bg-transparent border-gray-700 text-white transition-all duration-300"
-              onClick={() => navigate("/signin")}
             >
               Sign In
             </Button>
             <Button 
+              variant="outline"
               onClick={() => navigate("/signup")}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 animate-pulse-glow"
+              className="bg-transparent border-gray-700 text-white transition-all duration-300"
             >
               Get Started
             </Button>
@@ -131,7 +131,7 @@ export default function Navbar() {
                 {/* GitHub Link */}
                 <div className="flex items-center space-x-2 py-2 px-4 text-gray-300 hover:text-white transition-all duration-300 cursor-pointer rounded-lg hover:bg-gray-800/50">
                   <Github className="w-5 h-5" />
-                  <span>GitHub</span>
+                  <span onClick={() => window.location.href = "https://github.com/21lakshh/Snippify"}>GitHub</span>
                 </div>
               </div>
 

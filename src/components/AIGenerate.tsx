@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Menu, Send, Bot, Code, Save, Loader2 } from "lucide-react";
+import { Menu, Send, Code, Save, Loader2 } from "lucide-react";
 import snipgenerator, { type ChatMessage } from "../Agents/snipgenerator";
 import { type SnippetFormData } from "./NewSnippetForm";
 

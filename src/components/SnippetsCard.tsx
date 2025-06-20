@@ -1,33 +1,29 @@
 import { Badge } from "./ui/badge"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "./ui/card"
-import { Heart, Eye } from "lucide-react"
-import { Button } from "./ui/button"
+import ShinyText from "./ui/ShinyText"
+
 
 export default function SnippetsCard() {
     return (
         <div>
                {/* Code Snippet Repository Section */}
-      <section id="snippets" className="py-20 px-6 relative">
+      <section id="snippets" className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 relative">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+            <h2 className="text-4xl md:text-5xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">
+              <span className="bg-gradient-to-b from-blue-500 to-cyan-500 bg-clip-text text-transparent jura-regular">
                 Eliminate the Dry Rule
               </span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Access thousands of verified, community-tested code snippets. Save time and focus on what matters most.
-            </p>
+            <ShinyText text="Access thousands of verified, community-tested code snippets. Save time and focus on what matters most." className="text-md md:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto px-4" disabled={false} speed={5}/>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {[
               {
                 title: "React Custom Hook",
                 description: "useLocalStorage hook for persistent state management",
                 language: "TypeScript",
-                likes: 234,
-                views: 1200,
                 code: `const useLocalStorage = (key: string, initialValue: any) => {
   const [storedValue, setStoredValue] = useState(() => {
     try {
@@ -44,8 +40,6 @@ export default function SnippetsCard() {
                 title: "API Error Handler",
                 description: "Centralized error handling for API requests",
                 language: "JavaScript",
-                likes: 189,
-                views: 890,
                 code: `const handleApiError = (error) => {
   if (error.response) {
     // Server responded with error status
@@ -62,8 +56,6 @@ export default function SnippetsCard() {
                 title: "Debounce Function",
                 description: "Optimize performance with debounced function calls",
                 language: "JavaScript",
-                likes: 156,
-                views: 670,
                 code: `const debounce = (func, delay) => {
   let timeoutId;
   return (...args) => {
@@ -78,52 +70,34 @@ const debouncedSearch = debounce(searchFunction, 300);`,
             ].map((snippet, index) => (
               <Card
                 key={index}
-                className={`bg-gray-900/50 border-gray-800 hover:border-gray-700 transition-all duration-500 hover:shadow-lg hover:shadow-blue-500/10 hover:scale-105 animate-on-scroll stagger-${index + 1} group`}
+                className={`bg-gray-900/50 border-gray-800 hover:border-gray-700 transition-all duration-500 hover:shadow-lg hover:shadow-blue-500/10 hover:scale-105 animate-on-scroll stagger-${index + 1} group w-full`}
               >
-                <CardHeader>
-                  <div className="flex items-center justify-between">
+                <CardHeader className="p-4 sm:p-6">
+                  <div className="flex items-center justify-between mb-2">
                     <Badge
                       variant="secondary"
-                      className="bg-gray-800 text-gray-300 group-hover:bg-blue-800/30 group-hover:text-blue-300 transition-all duration-300"
+                      className="bg-gray-800 text-gray-300 group-hover:bg-blue-800/30 group-hover:text-blue-300 transition-all duration-300 text-xs sm:text-sm"
                     >
                       {snippet.language}
                     </Badge>
-                    <div className="flex items-center space-x-3 text-sm text-gray-400">
-                      <div className="flex items-center space-x-1 hover:text-red-400 transition-colors duration-300 cursor-pointer">
-                        <Heart className="w-4 h-4 hover:scale-125 transition-transform duration-300" />
-                        <span>{snippet.likes}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <Eye className="w-4 h-4" />
-                        <span>{snippet.views}</span>
-                      </div>
-                    </div>
                   </div>
-                  <CardTitle className="text-white group-hover:text-blue-300 transition-colors duration-300">
+                  <CardTitle className="text-white group-hover:text-blue-300 transition-colors duration-300 text-lg sm:text-xl leading-tight">
                     {snippet.title}
                   </CardTitle>
-                  <CardDescription className="text-gray-400">{snippet.description}</CardDescription>
+                  <CardDescription className="text-gray-400 text-sm sm:text-base leading-relaxed">{snippet.description}</CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="bg-black/50 rounded-lg p-4 border border-gray-800 group-hover:border-blue-500/30 transition-all duration-300">
-                    <pre className="text-sm text-gray-300 overflow-x-auto">
-                      <code>{snippet.code}</code>
+                <CardContent className="p-4 sm:p-6 pt-0">
+                  <div className="bg-black/50 rounded-lg p-3 sm:p-4 border border-gray-800 group-hover:border-blue-500/30 transition-all duration-300 overflow-hidden">
+                    <pre className="text-xs sm:text-sm text-gray-300 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent">
+                      <code className="whitespace-pre-wrap break-words sm:whitespace-pre">{snippet.code}</code>
                     </pre>
                   </div>
-                  <div className="flex items-center justify-between mt-4">
+                  <div className="flex items-center justify-between mt-3 sm:mt-4">
                   </div>
                 </CardContent>
               </Card>
             ))}
           </div>
-        </div>
-        <div className="text-center mt-12">
-          <Button 
-            size="lg" 
-            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 text-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/25"
-          >
-            Browse All Snippets
-          </Button>
         </div>
       </section>
         </div>

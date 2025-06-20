@@ -1,28 +1,38 @@
-import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
 import { Users, Zap, Code, ArrowRight } from "lucide-react"
-
+import { AvatarCircles } from "@/components/magicui/AvatarCircle";
+import ShinyText from "./ui/ShinyText";
 export default function Community() {
+
     return (
         <div>
               {/* Developer Community Section */}
       <section id="community" className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16 animate-on-scroll">
-            <Badge className="mb-4 bg-pink-500/10 text-pink-400 border-pink-500/30 hover:scale-110 transition-transform duration-300">
-              Developer Community
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-pink-400 to-orange-400 bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">
+              <span className="bg-gradient-to-r from-orange-500 via-white to-green-500 bg-clip-text text-transparent jura-regular">
                 Connect with Developers
               </span>
               <br />
-              <span className="text-white">all over India</span>
+              <span className="text-white jura-regular">all over </span>
+              <span className="bg-gradient-to-r from-orange-500 via-white to-green-500 bg-clip-text text-transparent jura-regular">
+                India
+              </span>
+              <div className="flex justify-center items-center mt-4">
+              <AvatarCircles
+              numPeople={99}
+              avatarUrls={[
+                { imageUrl: "https://github.com/shadcn.png", profileUrl: "https://github.com/shadcn" },
+                { imageUrl: "https://github.com/shadcn.png", profileUrl: "https://github.com/shadcn" },
+                { imageUrl: "https://github.com/shadcn.png", profileUrl: "https://github.com/shadcn" },
+                { imageUrl: "https://github.com/shadcn.png", profileUrl: "https://github.com/shadcn" },
+                { imageUrl: "https://github.com/shadcn.png", profileUrl: "https://github.com/shadcn" },
+              ]}
+            />
+              </div>
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Join our thriving community of developers. Network, collaborate, and share knowledge with like-minded
-              professionals.
-            </p>
+            <ShinyText text="Join our thriving community of developers. Network, collaborate, and share knowledge with like-minded professionals." disabled={false} speed={5} className='custom-class text-md md:text-2xl text-gray-300 mb-8 leading-relaxed max-w-3xl mx-auto' />
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 mb-12">
@@ -62,6 +72,9 @@ export default function Community() {
 
           <div className="text-center animate-on-scroll stagger-4">
             <Button
+              onClick={() => {
+                window.location.href = "https://x.com/i/communities/1911761736794776016"
+              }}
               size="lg"
               className="bg-gradient-to-r from-pink-600 to-orange-600 hover:from-pink-700 hover:to-orange-700 text-lg px-8 py-3 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-pink-500/25"
             >

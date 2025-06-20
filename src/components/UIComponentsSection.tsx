@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
+import ShinyText from "./ui/ShinyText";
 
 export default function UIComponentsSection() {
   const libraries = [
@@ -35,12 +35,10 @@ export default function UIComponentsSection() {
     <section id="components" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+          <h2 className="text-4xl sm:text-5xl font-bold mb-6 bg-gradient-to-b from-pink-400 to-purple-400 bg-clip-text text-transparent jura-regular">
             Curated UI Libraries
           </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-          Discover exceptional UI component libraries to enhance your applications with beautiful, accessible components.
-          </p>
+          <ShinyText text="Discover exceptional UI component libraries to enhance your applications with beautiful components." className="text-md md:text-xl text-gray-400 max-w-3xl mx-auto" disabled={false} speed={5}/>
         </div>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -75,25 +73,10 @@ export default function UIComponentsSection() {
                   </Badge>
                 </div>
                 
-                <Button 
-                  size="sm" 
-                  variant="outline" 
-                  className="w-full bg-transparent border-gray-600 text-gray-300 hover:bg-pink-600 hover:text-white hover:border-pink-500 transition-all duration-300"
-                >
-                  View Components
-                </Button>
+
               </CardContent>
             </Card>
           ))}
-        </div>
-        
-        <div className="text-center mt-12">
-          <Button 
-            size="lg" 
-            className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white px-8 py-3 text-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/25"
-          >
-            Explore All Libraries
-          </Button>
         </div>
       </div>
     </section>

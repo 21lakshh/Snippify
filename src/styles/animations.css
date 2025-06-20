@@ -92,7 +92,14 @@
     transform: translateY(0); 
   }
 }
-
+@keyframes rainbow {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 200%;
+  }
+}
 /* Animation Classes */
 .animate-float { 
   animation: float 6s ease-in-out infinite; 
@@ -114,6 +121,7 @@
   animation: fade-in 2s ease-out forwards; 
 }
 
-
-
+.animate-rainbow {
+  animation: rainbow 2s ease-in-out infinite;
+}
  
