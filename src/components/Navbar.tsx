@@ -57,6 +57,7 @@ export default function Navbar() {
             <Button
               variant="outline"
               className="bg-transparent border-gray-700 text-white transition-all duration-300"
+              onClick={() => navigate("/signin")}
             >
               Sign In
             </Button>

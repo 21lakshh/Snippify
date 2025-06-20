@@ -1,10 +1,11 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 import { ArrowLeft, Eye, EyeOff, User, Mail, Lock } from "lucide-react"
 import AnimatedBackground from "../components/AnimatedBackground"
+import { useAuth } from "../components/AuthContext"
 import axios from "axios"
 
 interface SignupData {
@@ -22,6 +23,26 @@ export default function Signup() {
   })
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
+  const { login, user, isLoading: authLoading } = useAuth()
+
+  // Redirect to dashboard if user is already authenticated
+  useEffect(() => {
+    if (!authLoading && user) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [user, authLoading, navigate]);
+
+  // Show loading spinner while checking authentication
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="flex items-center space-x-2">
+          <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+          <span>Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden relative flex items-center justify-center py-8">
@@ -132,7 +153,10 @@ export default function Signup() {
                   }
                 })
                 console.log(response.data)
-                localStorage.setItem("token", response.data.token)
+                
+                // Use the login function from AuthContext instead of directly setting localStorage
+                await login(response.data.token)
+                
                 navigate("/dashboard")
                 setIsLoading(false)
               }
