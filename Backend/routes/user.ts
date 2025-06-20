@@ -105,16 +105,21 @@ userRoute.post('/signin', async (c) => {
 
 userRoute.get('/me', authmiddleware, async (c) => {
     const userId = c.get('userId')
-    const user = await prisma.user.findMany({
+    try{
+    const user = await prisma.user.findUnique({
         where: { id: userId },
         select: {
-            snippets: true,
-            id: true
+            id: true,
+            username: true,
+            email: true
         }
     })
 
     return c.json({
-        msg: "User's snippets fetched successfully!",
-        user: user
-    }, 200)
+            msg: "User's details fetched successfully!",
+            user: user
+        }, 200)
+    } catch (err) {
+        return c.json({ msg: "Error in fetching user details" }, 500)
+    }
 })
