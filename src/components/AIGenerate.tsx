@@ -18,7 +18,7 @@ export default function AIGenerate({ onToggleSidebar, onCreateSnippet }: AIGener
         {
             id: '1',
             role: 'assistant',
-            content: 'Hi! What snippet do you need? I can help you create React components, React hooks, or plain JavaScript/TypeScript/Python functions.',
+            content: 'Hi! What snippet do you need? I can help you create React components, React hooks, and for other languages functions.',
             timestamp: new Date()
         }
     ]);

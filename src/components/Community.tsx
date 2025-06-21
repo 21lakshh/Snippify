@@ -23,11 +23,11 @@ export default function Community() {
               <AvatarCircles
               numPeople={99}
               avatarUrls={[
-                { imageUrl: "https://github.com/shadcn.png", profileUrl: "https://github.com/shadcn" },
-                { imageUrl: "https://github.com/shadcn.png", profileUrl: "https://github.com/shadcn" },
-                { imageUrl: "https://github.com/shadcn.png", profileUrl: "https://github.com/shadcn" },
-                { imageUrl: "https://github.com/shadcn.png", profileUrl: "https://github.com/shadcn" },
-                { imageUrl: "https://github.com/shadcn.png", profileUrl: "https://github.com/shadcn" },
+                { imageUrl: "https://upload.wikimedia.org/wikipedia/commons/f/f4/USAFA_Hosts_Elon_Musk_%28Image_1_of_17%29_%28cropped%29.jpg", profileUrl: "https://x.com/lakshh__" },
+                { imageUrl: "https://pbs.twimg.com/profile_images/1599003507415166977/pRYwiTo3_400x400.jpg", profileUrl: "https://x.com/lakshh__" },
+                { imageUrl: "https://pbs.twimg.com/profile_images/1890067153073704961/lW-CFqgG_400x400.jpg", profileUrl: "https://x.com/lakshh__" },
+                { imageUrl: "https://pbs.twimg.com/profile_images/1922731393878196225/X34kIy4z_400x400.jpg", profileUrl: "https://x.com/lakshh__" },
+                { imageUrl: "https://pbs.twimg.com/profile_images/1902952552116764672/m1sLPmMS_400x400.jpg", profileUrl: "https://x.com/lakshh__" },
               ]}
             />
               </div>

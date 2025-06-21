@@ -19,13 +19,13 @@ export default function Footer() {
                                 Empowering developers with reusable code snippets and community connections.
                             </p>
                             <div className="flex space-x-4">
-                                <a href="#" className="text-gray-400 hover:text-white transition-all duration-300 hover:scale-125">
+                                <a href="https://x.com/lakshh__" className="text-gray-400 hover:text-white transition-all duration-300 hover:scale-125">
                                     <Twitter className="w-5 h-5" />
                                 </a>
-                                <a href="#" className="text-gray-400 hover:text-white transition-all duration-300 hover:scale-125">
+                                <a href="https://github.com/21lakshh" className="text-gray-400 hover:text-white transition-all duration-300 hover:scale-125">
                                     <Github className="w-5 h-5" />
                                 </a>
-                                <a href="#" className="text-gray-400 hover:text-white transition-all duration-300 hover:scale-125">
+                                <a href="https://www.linkedin.com/in/lakshya-paliwal-67a5222aa" className="text-gray-400 hover:text-white transition-all duration-300 hover:scale-125">
                                     <Linkedin className="w-5 h-5" />
                                 </a>
                             </div>

@@ -181,34 +181,11 @@ export default function DashboardContent({ activeTab, onCreateSnippet, onToggleS
                 <SnipCard snippet={snippet} />
               </div>
             ))
-          ) : searchQuery ? (
-            <div className="w-full text-gray-400 text-center py-8">
-              <div className="space-y-3">
-                <div className="text-4xl">🔍</div>
-                <p className="text-lg">No snippets found</p>
-                <p className="text-sm">
-                  No snippets match your search for <span className="text-purple-400 font-medium">"{searchQuery}"</span>
-                </p>
-                <button
-                  onClick={clearSearch}
-                  className="text-sm text-purple-400 hover:text-purple-300 transition-colors underline"
-                >
-                  Clear search to see all snippets
-                </button>
-              </div>
-            </div>
           ) : (
             <div className="w-full text-gray-400 text-center py-8">
-              <div className="space-y-2">
-                <p>No {title.toLowerCase()} found.</p>
-                <p className="text-sm">
-                  {activeTab === DashboardTab.PRIVATE 
-                    ? "Create your first private snippet!" 
-                    : activeTab === DashboardTab.PUBLIC
-                    ? "No public snippets available."
-                    : `Create your first ${activeTab}!`
-                  }
-                </p>
+              <div className="space-y-3">
+                <p></p>
+                <p className="text-lg">No snippets found</p>
               </div>
             </div>
           )}
