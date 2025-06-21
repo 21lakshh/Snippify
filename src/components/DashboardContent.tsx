@@ -108,18 +108,20 @@ export default function DashboardContent({ activeTab, onCreateSnippet, onToggleS
 
       {/* Content Grid */}
       <div className="p-4 md:p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="columns-1 md:columns-2 lg:columns-3 gap-4 md:gap-6 space-y-4">
           {loading ? (
-            <div className="col-span-full flex items-center justify-center py-8">
+            <div className="w-full flex items-center justify-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
               <span className="ml-2 text-gray-400">Loading {title.toLowerCase()}...</span>
             </div>
           ) : Array.isArray(data) && data.length > 0 ? (
             data.map((snippet: Snippet) => (
-              <SnipCard key={snippet.id} snippet={snippet} />
+              <div key={snippet.id} className="break-inside-avoid mb-4">
+                <SnipCard snippet={snippet} />
+              </div>
             ))
           ) : (
-            <div className="col-span-full text-gray-400 text-center py-8">
+            <div className="w-full text-gray-400 text-center py-8">
               <div className="space-y-2">
                 <p>No {title.toLowerCase()} found.</p>
                 <p className="text-sm">
