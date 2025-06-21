@@ -1,4 +1,4 @@
-import { Menu, Trash2 } from "lucide-react";
+import { ArrowRight, Menu, Trash2 } from "lucide-react";
 import { type Snippet } from "../types/dashboard";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
@@ -26,8 +26,10 @@ export default function DeleteSnippets({ onToggleSidebar }: DeleteSnippetsProps)
     setDeletingId(confirmDelete.id);
     setConfirmDelete(null);
     
+    
+    
     try {
-      const response = await axios.delete(`https://snippify-backend.lakshyapaliwal200.workers.dev/api/v1/snippet/delete/${confirmDelete.id}`, {
+        const response = await axios.delete(import.meta.env.VITE_BACKEND_URL + `/snippet/delete/${confirmDelete.id}`, {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json"
@@ -49,6 +51,23 @@ export default function DeleteSnippets({ onToggleSidebar }: DeleteSnippetsProps)
     setConfirmDelete(null);
   };
 
+  const getTagColor = (tagName: string) => {
+    const colors = [
+      'blue', 'green', 'purple', 'pink', 'yellow', 'red', 
+      'indigo', 'orange', 'teal', 'cyan'
+    ];
+    
+    // Create a simple hash of the tag name to consistently assign the same color
+    let hash = 0;
+    for (let i = 0; i < tagName.length; i++) {
+      hash = tagName.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    
+    // Use the hash to pick a color index
+    const colorIndex = Math.abs(hash) % colors.length;
+    return colors[colorIndex] as 'blue' | 'green' | 'purple' | 'pink' | 'yellow' | 'red' | 'indigo' | 'orange' | 'teal' | 'cyan';
+  };
+
   return (
     <div className="flex-1 flex flex-col min-w-0">
       {/* Header */}
@@ -61,7 +80,7 @@ export default function DeleteSnippets({ onToggleSidebar }: DeleteSnippetsProps)
             >
               <Menu className="w-5 h-5" />
             </button>
-            <h1 className="text-xl font-semibold text-white">Delete Snippets</h1>
+            <h1 className="flex flex-row items-center gap-2 text-xl font-semibold text-white">Delete Snippets <ArrowRight className="w-4 h-4" /></h1>
           </div>
         </div>
       </div>
@@ -91,9 +110,9 @@ export default function DeleteSnippets({ onToggleSidebar }: DeleteSnippetsProps)
                         snippet.tags.map((tagItem: any, index: number) => (
                           <Badge 
                             key={index}
-                            variant="secondary" 
-                            className="bg-gray-800 text-gray-300"
-                    >
+                            variant={getTagColor(tagItem.tag ? tagItem.tag.name : tagItem.name)}
+                            className="hover:scale-105 transition-all duration-300"
+                          >
                             {tagItem.tag ? tagItem.tag.name : tagItem.name}
                           </Badge>
                         ))

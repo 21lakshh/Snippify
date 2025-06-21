@@ -40,7 +40,7 @@ export default function Signin() {
     setIsLoading(true)
 
     try{
-    const response = await axios.post('https://snippify-backend.lakshyapaliwal200.workers.dev/api/v1/user/signin', {
+    const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/user/signin', {
       email,
       password
     }, {

@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Menu, Send, Code, Save, Loader2 } from "lucide-react";
+import { Menu, Send, Code, Save, Loader2, ArrowRight } from "lucide-react";
 import snipgenerator, { type ChatMessage } from "../Agents/snipgenerator";
 import { type SnippetFormData } from "./NewSnippetForm";
 
@@ -212,8 +212,7 @@ export default function AIGenerate({ onToggleSidebar, onCreateSnippet }: AIGener
                         )}
                         
                         <div>
-                            <h1 className="text-xl md:text-2xl font-bold text-white">AI Snippet Generator</h1>
-                            <p className="text-sm text-gray-400">Generate code snippets with AI assistance</p>
+                            <h1 className="flex flex-row items-center gap-2 text-xl font-semibold text-white">AI Snippet Generator <ArrowRight className="w-4 h-4" /></h1>
                         </div>
                     </div>
                     

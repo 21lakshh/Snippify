@@ -143,7 +143,7 @@ export default function Signup() {
                 e.preventDefault()
                 setIsLoading(true)
                 try{
-                const response = await axios.post("https://snippify-backend.lakshyapaliwal200.workers.dev/api/v1/user/signup",{
+                const response = await axios.post(import.meta.env.VITE_BACKEND_URL + "/user/signup",{
                   username: SignupData.username,
                   email: SignupData.email,
                   password: SignupData.password

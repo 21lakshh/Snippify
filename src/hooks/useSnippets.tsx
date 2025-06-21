@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
     
     useEffect(() => {
         setLoading(true)
-        axios.get("https://snippify-backend.lakshyapaliwal200.workers.dev/api/v1/snippet/all", {
+        axios.get(import.meta.env.VITE_BACKEND_URL + "/snippet/all", {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }

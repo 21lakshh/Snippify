@@ -1,7 +1,7 @@
 import { useEffect, useId, useState } from "react";
 import {  motion } from "motion/react";
 import NewSnippetForm, { type SnippetFormData } from "./NewSnippetForm";
-import { Menu } from "lucide-react";
+import { ArrowRight, Menu } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { type Snippet } from "../types/dashboard";
 import useCachedPrivateSnippets from "../hooks/useCachedPrivateSnippets";
@@ -47,7 +47,7 @@ export default function UpdateSnippets({ onToggleSidebar }: UpdateSnippetsProps)
     try{
         console.log(active?.id);
         console.log(data);
-    const response = await axios.put(`https://snippify-backend.lakshyapaliwal200.workers.dev/api/v1/snippet/update/${active?.id}`, data, {
+    const response = await axios.put(import.meta.env.VITE_BACKEND_URL + `/snippet/update/${active?.id}`, data, {
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${localStorage.getItem("token")}`
@@ -58,7 +58,6 @@ export default function UpdateSnippets({ onToggleSidebar }: UpdateSnippetsProps)
         setShowForm(false);
         setActive(null);
         refetch(); // Refresh cached data after successful update
-        window.location.reload();
     } catch (error) {
         console.log(error);
     }
@@ -67,6 +66,23 @@ export default function UpdateSnippets({ onToggleSidebar }: UpdateSnippetsProps)
   const handleFormClose = () => {
     setShowForm(false);
     setActive(null);
+  };
+
+  const getTagColor = (tagName: string) => {
+    const colors = [
+      'blue', 'green', 'purple', 'pink', 'yellow', 'red', 
+      'indigo', 'orange', 'teal', 'cyan'
+    ];
+    
+    // Create a simple hash of the tag name to consistently assign the same color
+    let hash = 0;
+    for (let i = 0; i < tagName.length; i++) {
+      hash = tagName.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    
+    // Use the hash to pick a color index
+    const colorIndex = Math.abs(hash) % colors.length;
+    return colors[colorIndex] as 'blue' | 'green' | 'purple' | 'pink' | 'yellow' | 'red' | 'indigo' | 'orange' | 'teal' | 'cyan';
   };
 
   return (
@@ -81,7 +97,7 @@ export default function UpdateSnippets({ onToggleSidebar }: UpdateSnippetsProps)
             >
               <Menu className="w-5 h-5" />
             </button>
-            <h1 className="text-xl font-semibold text-white">Update Snippets</h1>
+            <h1 className="flex flex-row items-center gap-2 text-xl font-semibold text-white">Update Snippets <ArrowRight className="w-4 h-4" /></h1>
           </div>
         </div>
       </div>
@@ -123,9 +139,9 @@ export default function UpdateSnippets({ onToggleSidebar }: UpdateSnippetsProps)
                         snippet.tags.map((tagItem: any, index: number) => (
                           <Badge 
                             key={index}
-                            variant="secondary" 
-                            className="bg-purple-600/20 text-purple-300 border border-purple-500/30"
-                          >
+                            variant={getTagColor(tagItem.tag ? tagItem.tag.name : tagItem.name)}
+                            className="transition-all duration-300 hover:scale-105"
+                            >
                             {tagItem.tag ? tagItem.tag.name : tagItem.name}
                           </Badge>
                         ))

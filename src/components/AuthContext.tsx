@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => { /
             const token = localStorage.getItem("token");
             if (token) {
                 try{
-                const response = await axios.get("https://snippify-backend.lakshyapaliwal200.workers.dev/api/v1/user/me", {
+                const response = await axios.get(import.meta.env.VITE_BACKEND_URL + "/user/me", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json"
@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => { /
         // Clear any previous user's cached data before login
         clearSnippetCache();
         
-        const result = await axios.get("https://snippify-backend.lakshyapaliwal200.workers.dev/api/v1/user/me", {
+        const result = await axios.get(import.meta.env.VITE_BACKEND_URL + "/user/me", {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"

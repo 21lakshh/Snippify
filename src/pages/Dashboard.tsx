@@ -25,7 +25,7 @@ export default function Dashboard() {
       
       console.log("Request body:", requestBody)
       
-      const response = await axios.post('https://snippify-backend.lakshyapaliwal200.workers.dev/api/v1/snippet/create', requestBody, {
+      const response = await axios.post( import.meta.env.VITE_BACKEND_URL + '/snippet/create', requestBody, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -33,7 +33,7 @@ export default function Dashboard() {
       })
       
       console.log("Response:", response)
-      alert("Snippet created successfully!")
+      window.location.reload();
       setIsFormOpen(false)
       // Optionally trigger a refresh of the current tab's data
     } catch (error: any) {

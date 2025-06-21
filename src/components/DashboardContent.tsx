@@ -11,12 +11,16 @@ import axios from "axios"
 import { type SnippetFormData } from "./NewSnippetForm"
 import UpdateSnippets from "./UpdateSnippets"
 import DeleteSnippets from "./DeleteSnippets"
+import { useState, useMemo } from "react"
 
 interface DashboardContentExtendedProps extends DashboardContentProps {
   onToggleSidebar: () => void
 }
 
 export default function DashboardContent({ activeTab, onCreateSnippet, onToggleSidebar }: DashboardContentExtendedProps) {
+  // Search state
+  const [searchQuery, setSearchQuery] = useState("")
+
   // Use different hooks based on active tab
   const [allSnippets, allLoading] = useSnippets<Snippet>([])
   const [privateSnippets, privateLoading] = useCachedPrivateSnippets<Snippet>()
@@ -36,6 +40,51 @@ export default function DashboardContent({ activeTab, onCreateSnippet, onToggleS
 
   const { data, loading, title } = getContentData()
 
+  // Filter snippets based on search query
+  const filteredSnippets = useMemo(() => {
+    if (!searchQuery.trim() || !Array.isArray(data)) {
+      return data
+    }
+
+    const query = searchQuery.toLowerCase().trim()
+    
+    return data.filter((snippet: Snippet) => {
+      // Search in title
+      if (snippet.title?.toLowerCase().includes(query)) {
+        return true
+      }
+      
+      // Search in description
+      if (snippet.description?.toLowerCase().includes(query)) {
+        return true
+      }
+      
+      // Search in code content
+      if (snippet.code?.toLowerCase().includes(query)) {
+        return true
+      }
+      
+      // Search in author username
+      if (snippet.author?.username?.toLowerCase().includes(query)) {
+        return true
+      }
+      
+      // Search in tags
+      if (snippet.tags && Array.isArray(snippet.tags)) {
+        return snippet.tags.some((tagItem: any) => 
+          tagItem.tag?.name?.toLowerCase().includes(query)
+        )
+      }
+      
+      return false
+    })
+  }, [data, searchQuery])
+
+  // Clear search function
+  const clearSearch = () => {
+    setSearchQuery("")
+  }
+
   if(activeTab === DashboardTab.COMPONENTS) {
     return <UIComponentsRender onToggleSidebar={onToggleSidebar} />
   }
@@ -48,7 +97,7 @@ export default function DashboardContent({ activeTab, onCreateSnippet, onToggleS
   if(activeTab === DashboardTab.AI) {
     return <AIGenerate onToggleSidebar={onToggleSidebar} onCreateSnippet={async (data: SnippetFormData) => {
         try {
-        const response = await axios.post('https://snippify-backend.lakshyapaliwal200.workers.dev/api/v1/snippet/create', data, {
+        const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/snippet/create', data, {
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -56,7 +105,6 @@ export default function DashboardContent({ activeTab, onCreateSnippet, onToggleS
           })
           
           console.log("Response:", response)
-          alert("Snippet created successfully!")
           window.location.reload();
           // Optionally trigger a refresh of the current tab's data
         } catch (error: any) {
@@ -99,12 +147,25 @@ export default function DashboardContent({ activeTab, onCreateSnippet, onToggleS
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
               <Input
                 placeholder={`Search ${title.toLowerCase()}...`}
-                className="pl-10 w-32 md:w-64 bg-black/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-purple-500 focus:ring-purple-500/20"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 pr-8 w-32 md:w-64 bg-black/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-purple-500 focus:ring-purple-500/20"
               />
+              {searchQuery && (
+                <button
+                  onClick={clearSearch}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
             </div>
           </div>
         </div>
       </div>
+
 
       {/* Content Grid */}
       <div className="p-4 md:p-6">
@@ -114,12 +175,28 @@ export default function DashboardContent({ activeTab, onCreateSnippet, onToggleS
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
               <span className="ml-2 text-gray-400">Loading {title.toLowerCase()}...</span>
             </div>
-          ) : Array.isArray(data) && data.length > 0 ? (
-            data.map((snippet: Snippet) => (
+          ) : Array.isArray(filteredSnippets) && filteredSnippets.length > 0 ? (
+            filteredSnippets.map((snippet: Snippet) => (
               <div key={snippet.id} className="break-inside-avoid mb-4">
                 <SnipCard snippet={snippet} />
               </div>
             ))
+          ) : searchQuery ? (
+            <div className="w-full text-gray-400 text-center py-8">
+              <div className="space-y-3">
+                <div className="text-4xl">🔍</div>
+                <p className="text-lg">No snippets found</p>
+                <p className="text-sm">
+                  No snippets match your search for <span className="text-purple-400 font-medium">"{searchQuery}"</span>
+                </p>
+                <button
+                  onClick={clearSearch}
+                  className="text-sm text-purple-400 hover:text-purple-300 transition-colors underline"
+                >
+                  Clear search to see all snippets
+                </button>
+              </div>
+            </div>
           ) : (
             <div className="w-full text-gray-400 text-center py-8">
               <div className="space-y-2">

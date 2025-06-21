@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
-import { Menu, Search } from "lucide-react";
+import { ArrowRight, Menu, Search } from "lucide-react";
 import { Input } from "./ui/input";
 import { useState } from "react";
 
@@ -12,69 +12,83 @@ interface UIComponentsRenderProps {
 export default function UIComponentsRender({ onToggleSidebar }: UIComponentsRenderProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const libraries = [
-    {
-      name: "Shadcn/ui",
-      description: "Copy & paste components built with Radix UI and Tailwind CSS",
-      image: "🎯",
-      popularity: "★★★★★",
-      framework: "React",
-      category: "Component Library"
-    },
-    {
-      name: "Ant Design",
-      description: "Enterprise-class UI design language and components",
-      image: "🐜",
-      popularity: "★★★★★",
-      framework: "React",
-      category: "Enterprise"
-    },
-    
-    {
-      name: "Headless UI",
-      description: "Unstyled, accessible UI components for React & Vue",
-      image: "👻",
-      popularity: "★★★★☆",
-      framework: "React/Vue",
-      category: "Headless"
-    },
-    {
-      name: "Tailwind CSS",
-      description: "A utility-first CSS framework for rapidly building custom designs",
-      image: "🌈",
-      popularity: "★★★★★",
-      framework: "React",
-      category: "Component Library"
-    },
+const libraries = [
+  {
+    name: "Shadcn/ui",
+    description: "Copy-paste React components built with Radix UI and Tailwind CSS. Fully customizable.",
+    image: "🎯",
+    popularity: "★★★★★",
+    framework: "React",
+    category: "Component Library"
+  },
+  {
+    name: "Ant Design",
+    description: "Enterprise-level UI library with a clean design and comprehensive components.",
+    image: "🐜",
+    popularity: "★★★★★",
+    framework: "React",
+    category: "Enterprise"
+  },
+  {
+    name: "Headless UI",
+    description: "Unstyled accessible UI primitives for React and Vue.",
+    image: "👻",
+    popularity: "★★★★☆",
+    framework: "React/Vue",
+    category: "Headless"
+  },
+  {
+    name: "Tailwind CSS",
+    description: "Utility-first CSS framework for fast and custom UI development.",
+    image: "🌈",
+    popularity: "★★★★★",
+    framework: "CSS",
+    category: "Style Framework"
+  },
+  {
+    name: "Aceternity",
+    description: "Animated, copy-paste React components using Tailwind and Framer Motion.",
+    image: "⚡",
+    popularity: "★★★★★",
+    framework: "React",
+    category: "Component Library"
+  },
+  {
+    name: "MagicUI",
+    description: "Animated UI components for React, built with Tailwind and Framer Motion.",
+    image: "✨",
+    popularity: "★★★★★",
+    framework: "React",
+    category: "Animated UI"
+  },
+  {
+    name: "React Bits",
+    description: "Handy React snippets and components for common use cases.",
+    image: "🧩",
+    popularity: "★★★★☆",
+    framework: "React",
+    category: "Snippet Library",
+    link: "https://reactbits.io/"
+  },
+  {
+    name: "Chakra UI",
+    description: "Accessible React components with built-in theming and style props.",
+    image: "🛡️",
+    popularity: "★★★★★",
+    framework: "React",
+    category: "Component Library"
+  },
+  {
+    name: "Mantine",
+    description: "Full-featured React components and hooks for building apps fast.",
+    image: "🧩",
+    popularity: "★★★★☆",
+    framework: "React",
+    category: "Component Library"
+  }
+];
 
-    {
-      name: "Aceternity",
-      description: "A component library for React",
-      image: "🐜",
-      popularity: "★★★★★",
-      framework: "React",
-      category: "Component Library"
-    },
-
-    {
-      name: "MagicUI",
-      description: "A component library for React",
-      image: "🐜",
-      popularity: "★★★★★",
-      framework: "React",
-      category: "Component Library"
-    },
-
-    {
-      name: "React Bits",
-      description: "A component library for React",
-      image: "🐜",
-      popularity: "★★★★★",
-      framework: "React",
-      category: "Component Library",
-      link: "https://reactbits.io/"
-    }
-  ];
+  
 
   // Filter libraries based on search query
   const filteredLibraries = libraries.filter(library =>
@@ -102,8 +116,7 @@ export default function UIComponentsRender({ onToggleSidebar }: UIComponentsRend
             )}
             
             <div>
-              <h1 className="text-xl md:text-2xl font-bold text-white">UI Components</h1>
-              <p className="text-sm text-gray-400">Explore popular component libraries</p>
+              <h1 className="flex flex-row items-center gap-2 text-xl font-semibold text-white">UI Components <ArrowRight className="w-4 h-4" /></h1>
             </div>
           </div>
           

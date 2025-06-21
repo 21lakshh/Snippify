@@ -18,7 +18,7 @@ export default function useCachedPrivateSnippets<T = any>() {
   const fetchSnippets = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axios.get("https://snippify-backend.lakshyapaliwal200.workers.dev/api/v1/snippet/private", {
+      const response = await axios.get(import.meta.env.VITE_BACKEND_URL + "/snippet/private", {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json"
