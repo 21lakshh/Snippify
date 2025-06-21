@@ -19,7 +19,8 @@ const libraries = [
     image: "🎯",
     popularity: "★★★★★",
     framework: "React",
-    category: "Component Library"
+    category: "Component Library",
+    link: "https://ui.shadcn.com/"
   },
   {
     name: "Ant Design",
@@ -27,7 +28,8 @@ const libraries = [
     image: "🐜",
     popularity: "★★★★★",
     framework: "React",
-    category: "Enterprise"
+    category: "Enterprise",
+    link: "https://ant.design/"
   },
   {
     name: "Headless UI",
@@ -35,7 +37,8 @@ const libraries = [
     image: "👻",
     popularity: "★★★★☆",
     framework: "React/Vue",
-    category: "Headless"
+    category: "Headless",
+    link: "https://headlessui.com/"
   },
   {
     name: "Tailwind CSS",
@@ -43,7 +46,8 @@ const libraries = [
     image: "🌈",
     popularity: "★★★★★",
     framework: "CSS",
-    category: "Style Framework"
+    category: "Style Framework",
+    link: "https://tailwindcss.com/"
   },
   {
     name: "Aceternity",
@@ -51,7 +55,8 @@ const libraries = [
     image: "⚡",
     popularity: "★★★★★",
     framework: "React",
-    category: "Component Library"
+    category: "Component Library",
+    link: "https://ui.aceternity.com/"
   },
   {
     name: "MagicUI",
@@ -59,7 +64,8 @@ const libraries = [
     image: "✨",
     popularity: "★★★★★",
     framework: "React",
-    category: "Animated UI"
+    category: "Animated UI",
+    link: "https://v3.magicui.design/"
   },
   {
     name: "React Bits",
@@ -68,7 +74,7 @@ const libraries = [
     popularity: "★★★★☆",
     framework: "React",
     category: "Snippet Library",
-    link: "https://reactbits.io/"
+    link: "https://www.reactbits.dev/"
   },
   {
     name: "Chakra UI",
@@ -76,7 +82,8 @@ const libraries = [
     image: "🛡️",
     popularity: "★★★★★",
     framework: "React",
-    category: "Component Library"
+    category: "Component Library",
+    link: "https://chakra-ui.com/"
   },
   {
     name: "Mantine",
@@ -84,7 +91,8 @@ const libraries = [
     image: "🧩",
     popularity: "★★★★☆",
     framework: "React",
-    category: "Component Library"
+    category: "Component Library",
+    link: "https://mantine.dev/"
   }
 ];
 

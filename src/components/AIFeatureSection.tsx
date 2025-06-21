@@ -56,20 +56,3 @@ export default function AIFeatureSection() {
     </div>
   )
 }
-
-// Tailwind custom animation (add to your global CSS if not present):
-// @keyframes gradient-x {
-//   0%, 100% { background-position: 0% 50%; }
-//   50% { background-position: 100% 50%; }
-// }
-// .animate-gradient-x {
-//   background-size: 200% 200%;
-//   animation: gradient-x 3s ease-in-out infinite;
-// }
-// .animate-fade-in {
-//   animation: fadeIn 1.2s ease-in;
-// }
-// @keyframes fadeIn {
-//   from { opacity: 0; }
-//   to { opacity: 1; }
-// } 
