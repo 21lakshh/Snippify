@@ -1,54 +1,64 @@
-# React + TypeScript + Vite
+# _Snippify_  
+_Re‑usable code snippets, curated by developers, powered by an autonomous AI agent_  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Snippify is a full‑stack web platform where developers **discover, create, and share ready-to-use code snippets**. It blends the power of a community‑driven snippet repo with an **Autonomous AI Agent** that can instantly explain, refactor, or generate ready‑to‑drop‑in snippets for your projects.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- **Code Snippet Management**:
+  - **Create**: Craft reusable code snippets with support for public or private visibility.
+  - **Read**: Browse a vast library of community-contributed snippets or your own private collection.
+  - **Update**: Modify existing snippets to keep them up-to-date.
+  - **Delete**: Remove snippets you no longer need.
+  - **Copy**: Instantly copy snippets for quick integration into your projects.
+  
+- **AI Autonomous Agent**:
+  - Generates ready-to-use code snippets based on your requirements.
+  - Allows direct integration of AI-generated snippets into your projects.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Public & Private Snippets**:
+  - Share your snippets publicly to contribute to the developer community.
+  - Keep sensitive snippets private for personal or team use.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- **Component Library Exploration**:
+  - Discover curated component libraries to enhance your website’s design and functionality.
+  - Boost productivity with pre-built, customizable components.
+    
+## 🚀 Tech Stack
+
+- **Frontend**: React + TypeScript, Tailwind CSS
+- **Backend**: Hono + Cloudflare Workers
+- **Database**: PostgreSQL
+- **AI Agent**: Groq Cloud LLMs 
+
+---
+## 🚀 Installation & Setup
+
+### Step 1: Clone the Repository
+```bash
+git clone https://github.com/21lakshh/Snippify 
+cd Snippify
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+### Step 2: Install Dependencies
+```bash
+npm install
 ```
+
+### Step 4: Environment Configuration
+Create a `.env` file in the root directory:
+```bash
+VITE_GROQ_API_KEY=you_grok_api_key_here
+VITE_BACKEND_URL=your_database_connection_pooling_string
+```
+
+### Step 5: Run the Application
+```bash
+npm run dev
+```
+
+The application will be available at `http://localhost:5173/`
+
+---
