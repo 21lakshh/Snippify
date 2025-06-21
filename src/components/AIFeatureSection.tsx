@@ -20,7 +20,7 @@ export default function AIFeatureSection() {
 
             <CardItem translateZ="100" className="w-full mt-2 sm:mt-4 border-2 border-blue-500 rounded-xl animate-pulse-glow">
               <img
-                src="public/chatinterface.png"
+                src="/public/chatinterface.png"
                 height="1000"
                 width="1000"
                 className="h-48 sm:h-64 md:h-80 lg:h-96 w-full object-contain rounded-xl group-hover/card:shadow-xl"
