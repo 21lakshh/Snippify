@@ -3,9 +3,11 @@ import { Github, Menu, X } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { AuroraText } from "@/components/magicui/aurora-text"
+import { useAuth } from "./AuthContext"
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { user, logout } = useAuth()
   
   const handleNavClick = (sectionId: string) => {
     const element = document.getElementById(sectionId)
@@ -20,6 +22,12 @@ export default function Navbar() {
   const handleNavigate = (path: string) => {
     navigate(path)
     setIsMobileMenuOpen(false) // Close mobile menu after navigation
+  }
+
+  const handleLogout = () => {
+    logout()
+    window.location.reload();
+    setIsMobileMenuOpen(false)
   }
 
   return (
@@ -54,20 +62,44 @@ export default function Navbar() {
               Community
             </button>
             <Github className="w-5 h-5 text-gray-300 hover:text-white transition-all duration-300 cursor-pointer" onClick={() => window.location.href = "https://github.com/21lakshh/Snippify"}/>
-            <Button
-              variant="outline"
-              className="bg-transparent border-gray-700 text-white transition-all duration-300"
-              onClick={() => navigate("/signin")}
-            >
-              Sign In
-            </Button>
-            <Button 
-              variant="outline"
-              onClick={() => navigate("/signup")}
-              className="bg-transparent border-gray-700 text-white transition-all duration-300"
-            >
-              Get Started
-            </Button>
+            
+            {/* Dynamic Auth Section */}
+            {user ? (
+              <>
+                <Button
+                  variant="outline"
+                  className="bg-transparent border-gray-700 text-white transition-all duration-300"
+                  onClick={() => navigate("/dashboard")}
+                >
+                  Go to Dashboard
+                </Button>
+                <Button
+                  variant="outline"
+                  className="bg-transparent border-red-600/50 text-red-400 hover:bg-red-600 hover:text-white hover:border-red-500 transition-all duration-300"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              // Not logged in state
+              <>
+                <Button
+                  variant="outline"
+                  className="bg-transparent border-gray-700 text-white transition-all duration-300"
+                  onClick={() => navigate("/signin")}
+                >
+                  Sign In
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={() => navigate("/signup")}
+                  className="bg-transparent border-gray-700 text-white transition-all duration-300"
+                >
+                  Get Started
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -108,6 +140,23 @@ export default function Navbar() {
                 </button>
               </div>
 
+              {/* User Section (Mobile) */}
+              {user && (
+                <div className="p-6 border-b border-gray-800">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                      <span className="text-white font-semibold text-lg">
+                        {user.username.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                    <div>
+                      <p className="text-white font-medium">{user.username}</p>
+                      <p className="text-gray-400 text-sm">{user.email}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Navigation Items */}
               <div className="flex-1 p-6 space-y-6">
                 <button
@@ -138,19 +187,41 @@ export default function Navbar() {
 
               {/* Bottom Actions */}
               <div className="p-6 border-t border-gray-800 space-y-4">
-                <Button
-                  variant="outline"
-                  className="w-full bg-transparent border-gray-700 text-white hover:bg-gray-800 transition-all duration-300"
-                  onClick={() => handleNavigate("/signin")}
-                >
-                  Sign In
-                </Button>
-                <Button 
-                  onClick={() => handleNavigate("/signup")}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
-                >
-                  Get Started
-                </Button>
+                {user ? (
+                  // Logged in mobile buttons
+                  <>
+                    <Button
+                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
+                      onClick={() => handleNavigate("/dashboard")}
+                    >
+                      Go to Dashboard
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="w-full bg-transparent border-red-600/50 text-red-400 hover:bg-red-600 hover:text-white hover:border-red-500 transition-all duration-300"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  // Not logged in mobile buttons
+                  <>
+                    <Button
+                      variant="outline"
+                      className="w-full bg-transparent border-gray-700 text-white hover:bg-gray-800 transition-all duration-300"
+                      onClick={() => handleNavigate("/signin")}
+                    >
+                      Sign In
+                    </Button>
+                    <Button 
+                      onClick={() => handleNavigate("/signup")}
+                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
+                    >
+                      Get Started
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </div>

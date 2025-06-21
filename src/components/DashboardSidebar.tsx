@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom"
-import { Code, Home, Component, Lock, LockOpen, X, Bot, Edit, Trash } from "lucide-react"
+import {  Home, Component, Lock, LockOpen, X, Bot, Edit, Trash } from "lucide-react"
 import { DashboardTab } from "../types/dashboard"
+import { useAuth } from "./AuthContext"
+import { Button } from "./ui/button"
 
 interface DashboardSidebarProps {
   activeTab: DashboardTab
@@ -11,6 +13,7 @@ interface DashboardSidebarProps {
 
 export default function DashboardSidebar({ activeTab, onTabChange, isOpen, onClose }: DashboardSidebarProps) {
   const navigate = useNavigate()
+  const { user, logout } = useAuth();
 
   const isActive = (tab: DashboardTab) => activeTab === tab
 
@@ -42,14 +45,36 @@ export default function DashboardSidebar({ activeTab, onTabChange, isOpen, onClo
         <div className="p-6">
           {/* Mobile Close Button */}
           <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center animate-pulse-glow">
-                <Code className="w-5 h-5 text-white" />
+          <div className="flex flex-col space-y-4  p-4 bg-gray-900/50 rounded-xl border border-gray-800 w-full">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                <span className="text-white font-semibold text-lg">
+                  {user ? user.username.charAt(0).toUpperCase() : "U"}
+                </span>
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Snippify
-              </span>
+              <div className="flex-1 min-w-0">
+                <h1 className="text-lg font-semibold text-white truncate">
+                  {user ? user.username : "User"}
+                </h1>
+                <p className="text-sm text-gray-400 truncate">
+                  {user ? user.email : "user@example.com"}
+                </p>
+              </div>
             </div>
+            <Button 
+              variant="outline" 
+              size="sm"
+              className="w-full bg-transparent border-red-600/50 text-red-400 hover:bg-red-600 hover:text-white hover:border-red-500 transition-all duration-300 font-medium"
+              onClick={() => {
+                logout();
+              }}
+            >
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              Logout
+            </Button>
+          </div>
             
             {/* Close button - only visible on mobile */}
             <button

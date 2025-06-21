@@ -5,6 +5,12 @@ import { useCallback, useEffect, useState } from "react";
 let cachedSnippets: any[] = [];
 let hasInitiallyLoaded = false;
 
+// Function to clear the global cache - to be called on logout
+export const clearSnippetCache = () => {
+  cachedSnippets = [];
+  hasInitiallyLoaded = false;
+};
+
 export default function useCachedPrivateSnippets<T = any>() {
   const [snippets, setSnippets] = useState<T[]>(cachedSnippets);
   const [loading, setLoading] = useState(!hasInitiallyLoaded);
@@ -25,6 +31,10 @@ export default function useCachedPrivateSnippets<T = any>() {
       hasInitiallyLoaded = true;
     } catch (error) {
       console.error("Error fetching snippets:", error);
+      // Clear cache on error (e.g., unauthorized)
+      cachedSnippets = [];
+      setSnippets([]);
+      hasInitiallyLoaded = false;
     } finally {
       setLoading(false);
     }
@@ -42,5 +52,11 @@ export default function useCachedPrivateSnippets<T = any>() {
     fetchSnippets();
   }, [fetchSnippets]);
 
-  return [snippets, loading, refetch] as const;
+  // Clear local state (for when cache is cleared externally)
+  const clearLocal = useCallback(() => {
+    setSnippets([]);
+    setLoading(false);
+  }, []);
+
+  return [snippets, loading, refetch, clearLocal] as const;
 } 

@@ -45,6 +45,34 @@ export default function UIComponentsRender({ onToggleSidebar }: UIComponentsRend
       popularity: "★★★★★",
       framework: "React",
       category: "Component Library"
+    },
+
+    {
+      name: "Aceternity",
+      description: "A component library for React",
+      image: "🐜",
+      popularity: "★★★★★",
+      framework: "React",
+      category: "Component Library"
+    },
+
+    {
+      name: "MagicUI",
+      description: "A component library for React",
+      image: "🐜",
+      popularity: "★★★★★",
+      framework: "React",
+      category: "Component Library"
+    },
+
+    {
+      name: "React Bits",
+      description: "A component library for React",
+      image: "🐜",
+      popularity: "★★★★★",
+      framework: "React",
+      category: "Component Library",
+      link: "https://reactbits.io/"
     }
   ];
 
@@ -52,7 +80,9 @@ export default function UIComponentsRender({ onToggleSidebar }: UIComponentsRend
   const filteredLibraries = libraries.filter(library =>
     library.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     library.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    library.category.toLowerCase().includes(searchQuery.toLowerCase())
+    library.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    library.framework.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    library.link?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -136,6 +166,11 @@ export default function UIComponentsRender({ onToggleSidebar }: UIComponentsRend
                     <Button 
                       size="sm" 
                       variant="outline" 
+                      onClick={() => {
+                        if (library.link) {
+                          window.location.href = library.link;
+                        }
+                      }}
                       className="w-full bg-transparent border-gray-600 text-gray-300 hover:bg-pink-600 hover:text-white hover:border-pink-500 transition-all duration-300"
                     >
                       View Components

@@ -58,6 +58,7 @@ export default function UpdateSnippets({ onToggleSidebar }: UpdateSnippetsProps)
         setShowForm(false);
         setActive(null);
         refetch(); // Refresh cached data after successful update
+        window.location.reload();
     } catch (error) {
         console.log(error);
     }
