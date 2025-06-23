@@ -116,7 +116,7 @@ export default function Signup() {
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Create a strong password"
+                  placeholder="minimum 8 characters required"
                   value={SignupData.password}
                   onChange={(e) => {
                     setSignupData({ ...SignupData, password: e.target.value })
