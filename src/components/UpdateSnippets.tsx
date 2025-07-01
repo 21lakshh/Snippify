@@ -4,15 +4,17 @@ import NewSnippetForm, { type SnippetFormData } from "./NewSnippetForm";
 import { ArrowRight, Menu } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { type Snippet } from "../types/dashboard";
-import useCachedPrivateSnippets from "../hooks/useCachedPrivateSnippets";
+
 import axios from "axios";
 
 interface UpdateSnippetsProps {
   onToggleSidebar: () => void;
+  snippets: Snippet[];
+  loading: boolean;
+  onRefetch: () => void;
 }
 
-export default function UpdateSnippets({ onToggleSidebar }: UpdateSnippetsProps) {
-  const [snippets, loading, refetch] = useCachedPrivateSnippets<Snippet>();
+export default function UpdateSnippets({ onToggleSidebar, snippets, loading, onRefetch }: UpdateSnippetsProps) {
   const [active, setActive] = useState<Snippet | null>(null);
   const [showForm, setShowForm] = useState(false);
   const id = useId();
@@ -57,7 +59,7 @@ export default function UpdateSnippets({ onToggleSidebar }: UpdateSnippetsProps)
         console.log(response);
         setShowForm(false);
         setActive(null);
-        refetch(); // Refresh cached data after successful update
+        onRefetch(); // Refresh cached data after successful update
     } catch (error) {
         console.log(error);
     }

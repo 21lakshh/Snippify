@@ -2,8 +2,7 @@ import { Search, Plus, Menu } from "lucide-react"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import SnipCard from "./SnipCard"
-import useCachedPrivateSnippets from "../hooks/useCachedPrivateSnippets"
-import useSnippets from "../hooks/useSnippets"
+
 import { DashboardTab, type Snippet, type DashboardContentProps } from "../types/dashboard"
 import UIComponentsRender from "./UIComponentsRender"
 import AIGenerate from "./AIGenerate"
@@ -15,15 +14,28 @@ import { useState, useMemo } from "react"
 
 interface DashboardContentExtendedProps extends DashboardContentProps {
   onToggleSidebar: () => void
+  // Shared data props
+  privateSnippets: Snippet[]
+  privateLoading: boolean
+  publicSnippets: Snippet[]
+  publicLoading: boolean
+  onRefetchAll: () => void
 }
 
-export default function DashboardContent({ activeTab, onCreateSnippet, onToggleSidebar }: DashboardContentExtendedProps) {
+export default function DashboardContent({ 
+  activeTab, 
+  onCreateSnippet, 
+  onToggleSidebar, 
+  privateSnippets,
+  privateLoading,
+  publicSnippets,
+  publicLoading,
+  onRefetchAll
+}: DashboardContentExtendedProps) {
   // Search state
   const [searchQuery, setSearchQuery] = useState("")
 
-  // Use different hooks based on active tab
-  const [allSnippets, allLoading] = useSnippets<Snippet>([])
-  const [privateSnippets, privateLoading] = useCachedPrivateSnippets<Snippet>()
+  // No longer need to call hooks here - data is passed from parent
 
   // Determine which data to show based on active tab
   const getContentData = () => {
@@ -31,11 +43,10 @@ export default function DashboardContent({ activeTab, onCreateSnippet, onToggleS
       case DashboardTab.PRIVATE:
         return { data: privateSnippets, loading: privateLoading, title: "Private Snippets" }
       case DashboardTab.PUBLIC:
-        return { data: allSnippets, loading: allLoading, title: "Public Snippets" }
+        return { data: publicSnippets, loading: publicLoading, title: "Public Snippets" }
       default:
-        return { data: allSnippets, loading: allLoading, title: "All Snippets" }
+        return { data: publicSnippets, loading: publicLoading, title: "All Snippets" }
     }
-
   }
 
   const { data, loading, title } = getContentData()
@@ -89,10 +100,20 @@ export default function DashboardContent({ activeTab, onCreateSnippet, onToggleS
     return <UIComponentsRender onToggleSidebar={onToggleSidebar} />
   }
   if(activeTab === DashboardTab.UPDATE) {
-    return <UpdateSnippets onToggleSidebar={onToggleSidebar} />
+    return <UpdateSnippets 
+      onToggleSidebar={onToggleSidebar} 
+      snippets={privateSnippets}
+      loading={privateLoading}
+      onRefetch={onRefetchAll}
+    />
   }
   if(activeTab === DashboardTab.DELETE) {
-    return <DeleteSnippets onToggleSidebar={onToggleSidebar} />
+    return <DeleteSnippets 
+      onToggleSidebar={onToggleSidebar} 
+      snippets={privateSnippets}
+      loading={privateLoading}
+      onRefetch={onRefetchAll}
+    />
   }
   if(activeTab === DashboardTab.AI) {
     return <AIGenerate onToggleSidebar={onToggleSidebar} onCreateSnippet={async (data: SnippetFormData) => {
@@ -104,9 +125,9 @@ export default function DashboardContent({ activeTab, onCreateSnippet, onToggleS
             }
           })
           
-          console.log("Response:", response)
-          window.location.reload();
-          // Optionally trigger a refresh of the current tab's data
+                      console.log("Response:", response)
+            // Refresh both data sources since the new snippet could be public or private
+            onRefetchAll()
         } catch (error: any) {
           console.error("Error creating snippet:", error)
           console.error("Error response:", error.response?.data)

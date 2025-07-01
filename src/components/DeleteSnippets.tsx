@@ -3,16 +3,18 @@ import { type Snippet } from "../types/dashboard";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import ConfirmationDialog from "./ui/confirmation-dialog";
-import useCachedPrivateSnippets from "../hooks/useCachedPrivateSnippets";
+
 import axios from "axios";
 import { useState } from "react";
 
 interface DeleteSnippetsProps {
   onToggleSidebar: () => void;
+  snippets: Snippet[];
+  loading: boolean;
+  onRefetch: () => void;
 }
 
-export default function DeleteSnippets({ onToggleSidebar }: DeleteSnippetsProps) {
-  const [snippets, loading, refetch] = useCachedPrivateSnippets<Snippet>();
+export default function DeleteSnippets({ onToggleSidebar, snippets, loading, onRefetch }: DeleteSnippetsProps) {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<Snippet | null>(null);
 
@@ -39,7 +41,7 @@ export default function DeleteSnippets({ onToggleSidebar }: DeleteSnippetsProps)
       console.log("Delete response:", response);
       
       // Refresh cached data after successful deletion
-      refetch();
+      onRefetch();
     } catch (error: any) {
       console.error("Delete error:", error);
     } finally {

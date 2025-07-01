@@ -3,13 +3,25 @@ import Footer from "../components/Footer"
 import NewSnippetForm, { type SnippetFormData } from "../components/NewSnippetForm"
 import DashboardSidebar from "../components/DashboardSidebar"
 import DashboardContent from "../components/DashboardContent"
-import { DashboardTab } from "../types/dashboard"
+import { DashboardTab, type Snippet } from "../types/dashboard"
+import useCachedPrivateSnippets from "../hooks/useCachedPrivateSnippets"
+import useSnippets from "../hooks/useSnippets"
 import axios from "axios"
 
 export default function Dashboard() {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [activeTab, setActiveTab] = useState<DashboardTab>(DashboardTab.COMPONENTS)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  
+  // Centralized data management - all tabs will use these
+  const [privateSnippets, privateLoading, refetchPrivateSnippets] = useCachedPrivateSnippets<Snippet>()
+  const [publicSnippets, publicLoading, refetchPublicSnippets] = useSnippets<Snippet>([])
+  
+  // Combined refetch function for all operations
+  const refetchAllData = () => {
+    refetchPrivateSnippets()
+    refetchPublicSnippets()
+  }
 
   const handleCreateSnippet = async (data: SnippetFormData) => {
     try {
@@ -33,9 +45,9 @@ export default function Dashboard() {
       })
       
       console.log("Response:", response)
-      window.location.reload();
       setIsFormOpen(false)
-      // Optionally trigger a refresh of the current tab's data
+      // Trigger data refresh for all tabs
+      refetchAllData()
     } catch (error: any) {
       console.error("Error creating snippet:", error)
       console.error("Error response:", error.response?.data)
@@ -68,6 +80,12 @@ export default function Dashboard() {
           activeTab={activeTab} 
           onCreateSnippet={() => setIsFormOpen(true)}
           onToggleSidebar={toggleSidebar}
+          // Pass shared data and refetch functions
+          privateSnippets={privateSnippets}
+          privateLoading={privateLoading}
+          publicSnippets={publicSnippets}
+          publicLoading={publicLoading}
+          onRefetchAll={refetchAllData}
         />
       </div>
 
